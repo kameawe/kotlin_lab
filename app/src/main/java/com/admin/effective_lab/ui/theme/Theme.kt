@@ -1,4 +1,4 @@
-package package com.admin.effective_lab.ui.theme
+package com.admin.effective_lab.ui.theme
 
 import android.app.Activity
 import android.os.Build
