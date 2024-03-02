@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 fun GameInfoScreen() {
     Column(Modifier.fillMaxSize()) {
         HeaderBackground(picture = R.drawable.dota_background)
+//        BackgroundRoundedShape(hexColor = "#050B18", modifier = Modifier.fillMaxSize())
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -51,6 +52,10 @@ fun GameInfoScreen() {
             Spacer(modifier = Modifier.width(12.dp))
             GameInfo(gameName = "Dota 2", ratingsCount = 70, starCount = 5)
         }
+        CategorySection(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+        )
     }
 }
 
@@ -170,7 +175,7 @@ fun CategorySection(
     val height = 22.dp
     val minWidth = 95.dp
     Row(
-        horizontalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
         modifier = modifier
     ) {
         CategoryButton(
@@ -201,20 +206,35 @@ fun CategoryButton(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .border(
-                width = 1.dp,
-                color = Color.Blue,
+            .background(
+                color = Color(68, 169, 244, 24),
                 shape = RoundedCornerShape(100.dp)
             )
-            .padding(10.dp)
+            .padding(1.dp)
     ) {
         if (text != null) {
             Text(
                 text = text,
                 fontWeight = FontWeight.Normal,
-                fontSize = 10.sp
+                fontSize = 10.sp,
+                color = Color(android.graphics.Color.parseColor("#41A0E7"))
             )
         }
     }
 
+}
+
+@Composable
+fun BackgroundRoundedShape(
+    hexColor: String,
+    modifier: Modifier = Modifier
+) {
+    val color = Color(android.graphics.Color.parseColor(hexColor))
+    Box(
+        modifier = modifier
+            .background(
+                color = color,
+                shape = RoundedCornerShape(topStart = 21.dp, topEnd = 21.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
+            )
+    )
 }
