@@ -8,7 +8,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            GameInfo(gameName = "Dota 2", ratingsCount = 70)
+            GameInfoScreen()
         }
     }
 }
