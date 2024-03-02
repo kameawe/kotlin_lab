@@ -3,19 +3,7 @@ package com.admin.effective_lab
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -30,6 +18,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -40,23 +29,9 @@ import androidx.compose.ui.unit.sp
 fun GameInfoScreen() {
     Column(Modifier.fillMaxSize()) {
         HeaderBackground(picture = R.drawable.dota_background)
-//        BackgroundRoundedShape(hexColor = "#050B18", modifier = Modifier.fillMaxSize())
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            GameLogo(
-                gameLogo = R.drawable.dota_logo, modifier = Modifier
-                    .offset(y = (-17).dp)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            GameInfo(gameName = "Dota 2", ratingsCount = 70, starCount = 5)
-        }
-        CategorySection(
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-        )
+        GameSection()
     }
+
 }
 
 @Composable
@@ -88,6 +63,27 @@ fun HeaderBackground(
     }
 }
 
+@Composable
+fun GameSection() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        GameLogo(
+            gameLogo = R.drawable.dota_logo, modifier = Modifier
+                .offset(y = (-17).dp)
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        GameInfo(gameName = "Dota 2", ratingsCount = 70, starCount = 5)
+    }
+    CategorySection(
+        modifier = Modifier
+            .padding(horizontal = 20.dp)
+    )
+    Spacer(modifier = Modifier.height(30.dp))
+    GameDescription(text = "Dota 2 is a multiplayer online battle arena (MOBA) game which has two teams of five players compete to collectively destroy a large structure defended by the opposing team known as the \"Ancient\", whilst defending their own.")
+
+}
 
 @Composable
 fun GameLogo(
@@ -234,7 +230,29 @@ fun BackgroundRoundedShape(
         modifier = modifier
             .background(
                 color = color,
-                shape = RoundedCornerShape(topStart = 21.dp, topEnd = 21.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
+                shape = RoundedCornerShape(
+                    topStart = 21.dp,
+                    topEnd = 21.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 0.dp
+                )
             )
     )
+}
+
+@Composable
+fun GameDescription(
+    text: String? = null,
+) {
+    Box(modifier = Modifier.padding(horizontal = 20.dp)) {
+        if (text != null) {
+            Text(
+                text = text,
+                lineHeight = 19.sp,
+                fontSize = 12.sp,
+                fontStyle = FontStyle.Normal,
+                color = Color.Black,
+            )
+        }
+    }
 }
