@@ -1,21 +1,29 @@
 package com.admin.effective_lab
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -82,7 +90,8 @@ fun GameSection() {
     )
     Spacer(modifier = Modifier.height(30.dp))
     GameDescription(text = "Dota 2 is a multiplayer online battle arena (MOBA) game which has two teams of five players compete to collectively destroy a large structure defended by the opposing team known as the \"Ancient\", whilst defending their own.")
-
+    Spacer(modifier = Modifier.height(20.dp))
+    GameMultimediaContent()
 }
 
 @Composable
@@ -251,8 +260,70 @@ fun GameDescription(
                 lineHeight = 19.sp,
                 fontSize = 12.sp,
                 fontStyle = FontStyle.Normal,
+//            color = Color(238, 242, 251, 70),
                 color = Color.Black,
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun GameMultimediaContent() {
+    PostSection(
+        posts = listOf(
+            painterResource(id = R.drawable.dota_video),
+            painterResource(id = R.drawable.dota_video2),
+        ), modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp)
+    )
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun PostSection(
+    posts: List<Painter>,
+    modifier: Modifier = Modifier
+) {
+    LazyHorizontalGrid(
+        modifier = modifier.size(width = 240.dp, height = 135.dp),
+        rows = GridCells.Fixed(1),
+        horizontalArrangement = Arrangement.spacedBy(15.dp)
+    ) {
+        items(posts.size) {
+            Box(
+                modifier = Modifier
+                    .size(width = 240.dp, height = 135.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = posts[it],
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .clip(
+                            RoundedCornerShape(14.dp)
+                        )
+                )
+                Box(
+                    modifier = Modifier.size(48.dp)
+                        .background(color = Color(255, 255, 255, 100), RoundedCornerShape(100.dp))
+                        .blur(
+                            radiusX = 10.dp,
+                            radiusY = 10.dp,
+                            edgeTreatment = BlurredEdgeTreatment(RoundedCornerShape(8.dp))
+                        )
+                )
+
+
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = "Play",
+                    tint = Color.White
+                )
+
+            }
         }
     }
 }
