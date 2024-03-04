@@ -1,9 +1,6 @@
 package com.admin.effective_lab
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -39,6 +36,7 @@ fun GameInfoScreen() {
         Modifier
             .fillMaxSize()
             .background(Color(android.graphics.Color.parseColor("#050B18")))
+            .verticalScroll(rememberScrollState())
     ) {
         HeaderBackground(picture = R.drawable.dota_background)
         GameSection()
@@ -321,16 +319,17 @@ fun PostSection(
 @Composable
 fun ReviewAndRating(modifier: Modifier = Modifier) {
     Box(modifier.padding(horizontal = 20.dp)) {
-        Text(
-            text = "Review & Ratings",
-            fontWeight = FontWeight.Normal,
-            fontSize = 16.sp,
-            color = Color(android.graphics.Color.parseColor("#EEF2FB"))
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        AvarageRatingGame(ratingGame = 4.9f, ratingsCount = 70)
+        Column {
+            Text(
+                text = "Review & Ratings",
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                color = Color(android.graphics.Color.parseColor("#EEF2FB"))
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            AvarageRatingGame(ratingGame = 4.9f, ratingsCount = 70)
+        }
     }
-
 
 }
 
@@ -341,23 +340,37 @@ fun AvarageRatingGame(
     ratingsCount: Int? = null,
     modifier: Modifier = Modifier
 ) {
-
-    Text(
-        text = ratingGame.toString(),
-        fontWeight = FontWeight.Bold,
-        fontSize = 48.sp,
-        color = Color(android.graphics.Color.parseColor("#EEF2FB"))
-    )
-    Column(
-        modifier = modifier,
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
-        RatingStars(starCount = 5)
-        Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = ratingsCount.toString() + "M",
+            text = ratingGame.toString(),
             fontWeight = FontWeight.Bold,
-            fontSize = 12.sp,
+            fontSize = 48.sp,
             color = Color(android.graphics.Color.parseColor("#EEF2FB"))
         )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.Start
+        ) {
+
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RatingStars(starCount = 5)
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = ratingsCount.toString() + "M",
+                fontWeight = FontWeight.Bold,
+                fontSize = 12.sp,
+                color = Color(android.graphics.Color.parseColor("#EEF2FB"))
+            )
+        }
     }
 }
