@@ -43,6 +43,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -74,9 +76,19 @@ fun GameInfoScreen() {
         item {
             ReviewAndRating()
         }
+        item {
+            RoundedButtonInstall(
+                modifier = Modifier.padding(vertical = 40.dp, horizontal = 24.dp),
+                buttonName = "Install"
+            )
+        }
     }
 }
 
+val fontFamilyModernist = FontFamily(
+    Font(R.font.modernist_regular, FontWeight.Normal),
+    Font(R.font.modernist_bold, FontWeight.Bold)
+)
 
 @Composable
 fun HeaderBackground(
@@ -173,6 +185,7 @@ fun GameInfo(
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
+            fontFamily = fontFamilyModernist,
             letterSpacing = 0.5.sp,
             color = Color.White
         )
@@ -188,6 +201,7 @@ fun GameInfo(
                 text = ratingsCount.toString() + "M",
                 overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Normal,
+                fontFamily = fontFamilyModernist,
                 fontSize = 12.sp,
                 letterSpacing = 0.5.sp,
                 color = Color.White
@@ -259,6 +273,7 @@ fun CategoryButton(
             Text(
                 text = text,
                 fontWeight = FontWeight.Normal,
+                fontFamily = fontFamilyModernist,
                 fontSize = 10.sp,
                 color = Color(android.graphics.Color.parseColor("#41A0E7"))
             )
@@ -279,6 +294,7 @@ fun GameDescription(
                 lineHeight = 19.sp,
                 fontSize = 12.sp,
                 fontStyle = FontStyle.Normal,
+                fontFamily = fontFamilyModernist,
                 color = Color(238, 242, 251, 70),
 
                 )
@@ -354,6 +370,7 @@ fun ReviewAndRating(modifier: Modifier = Modifier) {
             Text(
                 text = "Review & Ratings",
                 fontWeight = FontWeight.Normal,
+                fontFamily = fontFamilyModernist,
                 fontSize = 16.sp,
                 color = Color(android.graphics.Color.parseColor("#EEF2FB"))
             )
@@ -381,6 +398,7 @@ fun AverageRatingGame(
         Text(
             text = ratingGame.toString(),
             fontWeight = FontWeight.Bold,
+            fontFamily = fontFamilyModernist,
             fontSize = 48.sp,
             color = Color(android.graphics.Color.parseColor("#EEF2FB"))
         )
@@ -401,6 +419,7 @@ fun AverageRatingGame(
             Text(
                 text = ratingsCount.toString() + "M",
                 fontWeight = FontWeight.Bold,
+                fontFamily = fontFamilyModernist,
                 fontSize = 12.sp,
                 color = Color(android.graphics.Color.parseColor("#EEF2FB"))
             )
@@ -411,14 +430,14 @@ fun AverageRatingGame(
 @Composable
 fun UserReview() {
     val context = LocalContext.current
-    val dataFileString = getJsonDataFromAsset(context, "ReviewData.json")
+    val dataFileString = getJsonDataFromAsset(context, "ReviewJson.json")
     val gson = Gson()
     val gridSampleType = object : TypeToken<List<ReviewData>>() {}.type
     val reviewData: List<ReviewData> = gson.fromJson(dataFileString, gridSampleType)
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
         modifier = Modifier
-            .height(250.dp),
+            .height(350.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
 
     ) {
@@ -461,16 +480,20 @@ fun ReviewDataGridItem(data: ReviewData) {
             ) {
                 Text(
                     text = data.userName, color = Color.White,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    fontFamily = fontFamilyModernist
                 )
                 Spacer(modifier = Modifier.height(7.dp))
-                Text(text = data.Date, color = Color.White, fontSize = 12.sp) // Change in feature
+                Text(
+                    text = data.Date, color = Color.White, fontSize = 12.sp,
+                    fontFamily = fontFamilyModernist
+                ) // Change in feature
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = data.userComment, fontSize = 12.sp, color = Color.White,
-            lineHeight = 20.sp, maxLines = 5
+            lineHeight = 20.sp, maxLines = 5, fontFamily = fontFamilyModernist
         )
     }
 
@@ -479,4 +502,32 @@ fun ReviewDataGridItem(data: ReviewData) {
 fun getJsonDataFromAsset(context: Context, data: String): String {
     return context.assets.open(data).bufferedReader().use { it.readText() }
 
+}
+
+@Composable
+fun RoundedButtonInstall(
+    modifier: Modifier = Modifier,
+    buttonName: String? = null
+) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .background(
+                color = Color(android.graphics.Color.parseColor("#F4D144")),
+                shape = RoundedCornerShape(12.dp)
+            )
+            .fillMaxWidth()
+    ) {
+        if (buttonName != null) {
+            Text(
+                modifier = Modifier.padding(vertical = 20.dp),
+                text = buttonName,
+                fontWeight = FontWeight.Normal,
+                fontSize = 20.sp,
+                fontFamily = fontFamilyModernist,
+                color = Color(android.graphics.Color.parseColor("#050B18"))
+            )
+        }
+    }
 }
