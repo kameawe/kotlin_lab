@@ -430,7 +430,7 @@ fun AverageRatingGame(
 @Composable
 fun UserReview() {
     val context = LocalContext.current
-    val dataFileString = getJsonDataFromAsset(context, "ReviewJson.json")
+    val dataFileString = getJsonDataFromAsset(context, "ReviewData.json")
     val gson = Gson()
     val gridSampleType = object : TypeToken<List<ReviewData>>() {}.type
     val reviewData: List<ReviewData> = gson.fromJson(dataFileString, gridSampleType)
